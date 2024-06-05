@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
-
-class ScladConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
+class SkladConfig(AppConfig):
     name = 'sclad'
+
+    def ready(self):
+        from . import templatetags

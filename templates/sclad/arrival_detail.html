@@ -32,8 +32,10 @@
                 <th scope="row">{{ item.purchase_price | floatformat:1}}</th>
           </tr>
         {% endfor %}
-          <tr>
-            <th scope="row">${{ arrival.total_arrival_cost|floatformat:2 }}</th>
+          <tr bgcolor="cuan">
+              <th scope="col">Итого: </th>
+              <th scope="row">{{ arrival.total_quant}}</th>
+              <th scope="row">${{ arrival.total_arrival_cost|floatformat:2 }}</th>
           </tr>
     </tbody>
 </table>

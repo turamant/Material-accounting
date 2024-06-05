@@ -5,15 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="285c4775-426a-4c65-8e46-cd26a09ce989" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sclad/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sclad/templatetags/custom_tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/expense_create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sclad/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sclad/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sclad/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sclad/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sclad/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/arrival_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/arrival_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/expense_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/expense_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sclad/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,13 +28,16 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -45,6 +53,7 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/bogdangorbunov/codePy/MySKL/templates&quot;
   }
 }</component>
@@ -54,6 +63,7 @@
       <recent name="$PROJECT_DIR$/accounts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/sclad" />
       <recent name="$PROJECT_DIR$/templates/registration" />
     </key>
   </component>

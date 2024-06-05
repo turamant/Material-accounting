@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Создание продажи</h1>
+  <form method="post">
+    {% csrf_token %}
+    <label for="customer">Клиент:</label>
+    <select name="customer" id="customer">
+      {% for customer in customers %}
+        <option value="{{ customer.id }}">{{ customer.name }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="date">Дата:</label>
+    <input type="date" name="date" id="date">
+    <br>
+    <label for="description">Описание:</label>
+    <textarea name="description" id="description"></textarea>
+    <br>
+    <h2>Товары:</h2>
+    {% for product in products %}
+      <label for="product_{{ product.id }}">{{ product.name }} (в наличии: {{ product.quantity }})</label>
+      <input type="number" name="product_{{ product.id }}" id="product_{{ product.id }}" min="0" max="{{ product.quantity }}">
+      <br>
+    {% endfor %}
+    <button type="submit">Создать продажу</button>
+  </form>
+{% endblock %}

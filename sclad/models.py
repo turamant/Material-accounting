@@ -96,6 +96,10 @@ class Arrival(models.Model):
     def total_arrival_cost(self):
         return sum(item.item_total for item in self.arrivalcomposition_set.all())
 
+    @property
+    def total_quant(self):
+        return sum(item.quantity for item in self.arrivalcomposition_set.all())
+
 
 class ArrivalComposition(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

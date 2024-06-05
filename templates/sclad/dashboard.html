@@ -8,7 +8,7 @@ Hi {{ user.username }}!
   <button type="submit">Log Out</button>
 </form>
 
-  <h2>Dashboard</h2>
+  <h2>Dashboard 2024</h2>
 
   <h3>Номенклатура</h3>
 
@@ -33,7 +33,7 @@ Hi {{ user.username }}!
     </tbody>
   </table>
 
- {% if user.role != 'manager' %}
+{% if user.role == 'admin' %}
   <h3>Поступления</h3>
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -102,9 +102,46 @@ Hi {{ user.username }}!
     {% endfor %}
     </tbody>
 </table>
-{% endif %}
+{% elif user.role == 'manager' %}
+  <h3>Ваши продажи за сегодня</h3>
+  <table class="table table-bordered">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Последние продажи</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for expense in recent_expenses %}
+      <tr>
+            <th scope="row">
+                <a href="{% url 'sclad:expense_detail' expense.id %}">
+                    {{ expense }}, Сумма: ${{ expense.total_cost}}
+                </a>
+            </th>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+<h3>Поступления</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Последние поступления</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for arrival in recent_arrivals %}
+    <tr>
+          <th scope="row">{{ arrival }}</a></th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 {% else %}
 <p>You are not logged in</p>
 <a href="{% url 'accounts:login' %}">Log In</a>
 {% endif %}
+{% endif %}
 {% endblock %}
+
