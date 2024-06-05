@@ -4,29 +4,54 @@
 <table class="table table-bordered">
     <thead class="thead-dark">
     <tr>
-      <th scope="col">article number</th>
+        <th scope="col">Дата</th>
+        <th scope="col">Поставщик</th>
     </tr>
-  </thead>
+    </thead>
     <tbody>
-    {% for arrival in recent_arrivals %}
     <tr>
-          <th scope="row"><a href=""> {{ arrival }}</a></th>
+          <th scope="row">{{ arrival.date }}</th>
+          <th scope="row">{{ arrival.supplier }}</th>
     </tr>
-    {% endfor %}
     </tbody>
 </table>
 
-    {{ product }}
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Продукт</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+          {% for item in arrival.arrivalcomposition_set.all %}
+          <tr>
+                <th scope="row">{{ item.product.name }}</th>
+                <th scope="row">{{ item.quantity }}</th>
+                <th scope="row">{{ item.purchase_price | floatformat:1}}</th>
+          </tr>
+        {% endfor %}
+          <tr>
+            <th scope="row">${{ arrival.total_arrival_cost|floatformat:2 }}</th>
+          </tr>
+    </tbody>
+</table>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Описание</th>
+        <th scope="col">Оформитель</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+          <th scope="row">{{ arrival.description }}</th>
+          <th scope="row">{{ arrival.user }}</th>
+    </tr>
+    </tbody>
+</table>
 
 
 {% endblock %}
 
-<!--
-article_number = models.CharField(max_length=50, unique=True, null=True)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
-    sell_price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.IntegerField()
-    user = models.ForeignKey('a
--->

@@ -19,6 +19,13 @@ class User(AbstractUser):
         verbose_name='user permissions',
     )
 
+    ROLE_CHOICES = (
+        ('admin', 'Admin'),
+        ('manager', 'Manager'),
+        ('employee', 'Employee'),
+    )
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='employee')
+
 
 class Group(models.Model):
     name = models.CharField(max_length=50)

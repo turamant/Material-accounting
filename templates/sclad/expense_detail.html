@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+       <th scope="col">Дата</th>
+        <th scope="col">Покупатель</th>
+        <th scope="col">%Скидка</th>
+        <th scope="col">Продукт</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Кол-во</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">$Скидка</th>
+
+    </tr>
+  </thead>
+    <tbody>
+    <tr>
+          <th scope="row">{{ expense.date }}</th>
+          <th scope="row">{{ expense.customer }}</th>
+          <th scope="row">{{ expense.customer.discount }}</th>
+          {% for item in expense.expensecomposition_set.all %}
+                <th scope="row">{{ item.product.name }}</th>
+                <th scope="row">${{ item.product.sell_price | floatformat:0 }}</th>
+                <th scope="row">{{ item.quantity }}</th>
+          {% endfor %}
+          <th scope="row">${{ expense.total_cost}}</th>
+          <th scope="row">${{ expense.total_discount }}</th>
+    </tr>
+    </tbody>
+</table>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Описание</th>
+        <th scope="col">Оформитель</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+          <th scope="row">{{ expense.description }}</th>
+          <th scope="row">{{ expense.user }}</th>
+    </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+<!-- discount , total_cost-->
