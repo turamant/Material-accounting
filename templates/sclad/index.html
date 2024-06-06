@@ -1,8 +1,92 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for product in products %}
-    {{ product }}
-{% endfor %}
+<h2 style="text-align: center">Это веб-сервис "Э-Склад" складской учет. Ver.2.0.1</h2>
+<div class="container my-5" style="background-color:yellow; color:black; text-align: center;">
+<h3>Описание</h3>
+<p>Просто зарегистрируйся и получи доступ к сервису</p>
+<p>Далее все интуитивно понятно!</p>
+<p>1.Внесите все товары которые у вас уже есть на складе</p>
+<p>2.Если хотите осуществить приход - сделайте приход товара</p>
+<p>3.Если продаете товар - сделайте продажу товара</p>
+<p>4.Вся информация о вашем складе находиться на dashborde<p>
+    <p>(главная страница сервиса после вашей регистрации(LogUp) или аутентификации(LogIn) </p>
+</div>
+<h3>Продукт</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Артикул</th>
+        <th scope="col">Название</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена покупки</th>
+        <th scope="col">Цена продажи</th>
+        <th scope="col">Общая стоимость</th>
+        <th scope="col">Общая выручка</th>
+        <th scope="col">Прибыль</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr bgcolor="cuan">
+        <th scope="row">-</th>
+        <td>-</td>
+        <td>-</td>
+        <td>$</td>
+        <td>$</td>
+        <td>$</td>
+        <td>$</td>
+        <td>$</td>
+    </tr>
+    </tbody>
+</table>
+<h3>Приход товара</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Продукт</th>
+        <th scope="col">Поставщик</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+          <tr bgcolor="cuan">
+              <th scope="col">-</th>
+              <th scope="col">-</th>
+              <th scope="row">-</th>
+              <th scope="row">$</th>
+              <th scope="row">$</th>
+          </tr>
+    </tbody>
+</table>
+<h3>Продажа товара</h3>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+       <th scope="col">Дата</th>
+       <th scope="col">Покупатель</th>
+       <th scope="col">% Скидка</th>
+       <th scope="col">Продукт</th>
+       <th scope="col">Цена</th>
+       <th scope="col">Кол-во</th>
+       <th scope="col">Сумма</th>
+       <th scope="col">$ Скидка</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr  bgcolor="cuan">
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>$</td>
+        <td>-</td>
+        <td>$</td>
+        <td>$</td>
+    </tr>
+  </tbody>
+</table>
+
 
 {% endblock %}

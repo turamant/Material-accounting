@@ -1,0 +1,81 @@
+Для реализации такого сценария, вам понадобится создать дополнительную модель для
+ управления правами пользователей на уровне складов. Давайте предположим, что у вас есть
+ следующие модели:
+
+from django.contrib.auth.models import User
+from django.db import models
+
+class Supplier(models.Model):
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Discount(models.Model):
+    name = models.CharField(max_length=255)
+    discount_percentage = models.DecimalField(max_digits=10, decimal_places=2)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Warehouse(models.Model):
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+ Теперь, давайте добавим новую модель под названием WarehouseRole,
+  которая будет определять роли пользователей для каждого склада:
+
+  class WarehouseRole(models.Model):
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('user', 'User'),
+    ]
+
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+
+В этой модели WarehouseRole мы определяем роли пользователей для каждого склада.
+ Пользователь может быть либо "admin", либо "user" для каждого склада.
+
+Теперь, в ваших представлениях (views) вы можете проверять роль пользователя для каждого склада:
+from django.contrib.auth.decorators import login_required
+from .models import Warehouse, WarehouseRole, Discount
+
+@login_required
+def discount_list(request):
+    try:
+        warehouse_role = WarehouseRole.objects.get(user=request.user, warehouse__user=request.user)
+        if warehouse_role.role == 'admin':
+            discounts = Discount.objects.filter(user=request.user)
+        else:
+            discounts = Discount.objects.none()
+    except WarehouseRole.DoesNotExist:
+        discounts = Discount.objects.none()
+    return render(request, 'sclad/discount_list.html', {'discounts': discounts})
+
+@login_required
+def discount_create(request):
+    try:
+        warehouse_role = WarehouseRole.objects.get(user=request.user, warehouse__user=request.user)
+        if warehouse_role.role == 'admin':
+            if request.method == 'POST':
+                # Handle discount creation logic
+                pass
+            return render(request, 'sclad/discount_create.html')
+        else:
+            return redirect('sclad:discount_list')
+    except WarehouseRole.DoesNotExist:
+        return redirect('sclad:discount_list')
+
+
+в этом примере, в представлении discount_list, мы проверяем роль пользователя для склада,
+ к которому относится текущий пользователь. Если пользователь является администратором,
+  он видит все скидки, созданные им. Если пользователь является обычным пользователем,
+   он не видит никаких скидок.
+
+Аналогично, в представлении discount_create, мы проверяем, является ли пользователь
+администратором для склада. Если да, он может создавать новые скидки. Если нет, он
+ перенаправляется на страницу списка скидок.
+
+Таким образом, вы можете реализовать различные уровни доступа для разных пользователей,
+ не нарушая изоляции их складов. Администратор одного склада не будет иметь доступа к другим
+  складам, если только это не будет специально предусмотрено в ваших требованиях.
+

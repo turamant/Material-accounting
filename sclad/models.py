@@ -5,12 +5,25 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
-
+# class Warehouse(models.Model):
+#     name = models.CharField(max_length=255)
+#     user = models.ForeignKey('account.User', null=True, on_delete=models.CASCADE)
+#
+#
+# class WarehouseRole(models.Model):
+#     ROLE_CHOICES = [
+#         ('admin', 'Admin'),
+#         ('user', 'User'),
+#     ]
+#
+#     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
+#     user = models.ForeignKey('account.User',null=True, on_delete=models.CASCADE)
+#     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
 class Supplier(models.Model):
     name = models.CharField(max_length=255)
     contact_info = models.TextField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -23,7 +36,7 @@ class Product(models.Model):
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     sell_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     @property
     def total_arrival_quantity(self):
@@ -67,7 +80,7 @@ class Discount(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     discount_percentage = models.DecimalField(max_digits=10, decimal_places=2)
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}: {self.discount_percentage}%'
@@ -77,7 +90,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=255)
     contact_info = models.TextField()
     discount = models.ForeignKey(Discount, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -87,7 +100,7 @@ class Arrival(models.Model):
     date = models.DateField()
     description = models.TextField()
     supplier = models.ForeignKey(Supplier, null=True, on_delete=models.CASCADE)
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Arrival on {self.date} from {self.supplier}, {self.description}"
@@ -106,7 +119,7 @@ class ArrivalComposition(models.Model):
     arrival = models.ForeignKey(Arrival, on_delete=models.CASCADE)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.product.name} in {self.arrival}"
@@ -120,7 +133,7 @@ class Expense(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     date = models.DateField()
     description = models.TextField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Дата: {self.date}, Покупатель: {self.customer}"
@@ -145,7 +158,7 @@ class ExpenseComposition(models.Model):
     expense = models.ForeignKey(Expense, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.product.name} in {self.expense}"
@@ -171,7 +184,7 @@ class Return(models.Model):
     reason = models.TextField()
     return_date = models.DateField()
     sell_price = models.DecimalField(max_digits=10, decimal_places=2)
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Return of {self.quantity} {self.expense_composition.product.name}"
@@ -183,7 +196,7 @@ class Writeoff(models.Model):
     quantity = models.IntegerField()
     reason = models.TextField()
     writeoff_date = models.DateField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Writeoff of {self.quantity} {self.product.name} from {self.supplier.name}"

@@ -35,7 +35,6 @@ Hi {{ user.username }}!
     </tbody>
   </table>
 
-{% if user.role == 'admin' %}
 <a href="{% url 'sclad:product_create' %}" class="btn btn-primary">Добавить продукт</a>
   <h3>Поступления</h3>
 <table class="table table-bordered">
@@ -74,6 +73,8 @@ Hi {{ user.username }}!
     </tbody>
 </table>
 
+<a href="{% url 'sclad:expense_create' %}" class="btn btn-primary">Добавить продажи</a>
+
 <h3>Возвраты</h3>
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -105,48 +106,15 @@ Hi {{ user.username }}!
     {% endfor %}
     </tbody>
 </table>
-{% elif user.role == 'manager' %}
-  <h3>Ваши продажи за сегодня</h3>
-  <table class="table table-bordered">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Последние продажи</th>
-      </tr>
-    </thead>
-      <tbody>
-      {% for expense in recent_expenses %}
-      <tr>
-            <th scope="row">
-                <a href="{% url 'sclad:expense_detail' expense.id %}">
-                    {{ expense }}, Сумма: ${{ expense.total_cost}}
-                </a>
-            </th>
-      </tr>
-      {% endfor %}
-      </tbody>
-  </table>
-<a class="btn btn-primary" href="{% url 'sclad:expense_create' %}">Создать продажу</a>
-
-<h3>Поступления</h3>
-<table class="table table-bordered">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Последние поступления</th>
-    </tr>
-  </thead>
-    <tbody>
-    {% for arrival in recent_arrivals %}
-    <tr>
-          <th scope="row">{{ arrival }}</a></th>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
 
 {% else %}
 <p>You are not logged in</p>
 <a href="{% url 'accounts:login' %}">Log In</a>
 {% endif %}
-{% endif %}
-{% endblock %}
 
+
+<a href="{% url 'sclad:customer_create' %}" class="btn btn-primary">Добавить покупателя</a>
+<a href="{% url 'sclad:discount_create' %}" class="btn btn-primary">Добавить тип скидки</a>
+
+<a href="{% url 'sclad:supplier_create' %}" class="btn btn-primary">Добавить ппотсвавщика</a>
+{% endblock %}

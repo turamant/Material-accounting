@@ -1,5 +1,6 @@
 from django import forms
-from .models import Product, Arrival, ArrivalComposition, Supplier, Expense, Customer, ExpenseComposition
+from .models import (Product, Arrival, ArrivalComposition, Supplier, Expense,
+                     Customer, ExpenseComposition)
 
 
 class ProductForm(forms.ModelForm):

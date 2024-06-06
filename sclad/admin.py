@@ -3,6 +3,7 @@ from .models import (Supplier, Product, Discount, Customer, Arrival,
                      ArrivalComposition, Expense, ExpenseComposition, Return, Writeoff)
 
 
+
 class ArrivalCompositionInline(admin.TabularInline):
     model = ArrivalComposition
     extra = 1

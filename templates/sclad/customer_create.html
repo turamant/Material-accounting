@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Add Supplier</h1>
+  <h1>Add Customer</h1>
   <form method="post">
     {% csrf_token %}
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
     <label for="contact_info">Contact Info:</label>
     <textarea id="contact_info" name="contact_info" required></textarea>
+    <label for="discount">Discount:</label>
+    <select id="discount" name="discount">
+      <option value="">None</option>
+      {% for discount in discounts %}
+        <option value="{{ discount.id }}">{{ discount.name }} (\[{{ discount.discount_percentage }}%\])</option>
+      {% endfor %}
+    </select>
     <button type="submit">Save</button>
-
   </form>
 {% endblock %}
-
