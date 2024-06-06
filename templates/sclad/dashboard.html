@@ -19,6 +19,7 @@ Hi {{ user.username }}!
       <th scope="col">Товар</th>
       <th scope="col">Кол</th>
       <th scope="col">Цена</th>
+        <th scope="col">Действия</th>
     </tr>
   </thead>
     <tbody>
@@ -28,12 +29,14 @@ Hi {{ user.username }}!
           <th scope="row" class="text-secondary">{{ product.name }}</th>
           <th scope="row">{{ product.quantity }}</th>
            <th scope="row">${{product.sell_price | floatformat:0}}</th>
+           <th scope="row"><a href="{% url 'sclad:product_detail' product.id %}">Просмотреть</a></th>
        </tr>
        {% endfor %}
     </tbody>
   </table>
 
 {% if user.role == 'admin' %}
+<a href="{% url 'sclad:product_create' %}" class="btn btn-primary">Добавить продукт</a>
   <h3>Поступления</h3>
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -49,7 +52,7 @@ Hi {{ user.username }}!
     {% endfor %}
     </tbody>
 </table>
-
+<a href="{% url 'sclad:arrival_create' %}" class="btn btn-primary">Добавить поступление</a>
 
 <h3>Продажи</h3>
 <table class="table table-bordered">
@@ -122,6 +125,8 @@ Hi {{ user.username }}!
       {% endfor %}
       </tbody>
   </table>
+<a class="btn btn-primary" href="{% url 'sclad:expense_create' %}">Создать продажу</a>
+
 <h3>Поступления</h3>
 <table class="table table-bordered">
     <thead class="thead-dark">

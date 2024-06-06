@@ -1,10 +1,16 @@
 import datetime
+from decimal import Decimal
+from django.forms import inlineformset_factory
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 
-from django.contrib.auth.decorators import login_required
-from .models import Product, Arrival, Expense, Return, Writeoff, Supplier, Customer, ExpenseComposition
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+from .forms import ProductForm, ArrivalForm, ExpenseForm, CustomerForm, ExpenseCompositionForm
+from .models import Product, Arrival, Expense, Return, Writeoff, Supplier, Customer, ExpenseComposition, \
+    ArrivalComposition
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -16,23 +22,23 @@ def index(request):
 @login_required
 def dashboard(request):
     user = request.user
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-id')
 
     if user.role == 'admin':
         print("ADMIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         # Админ видит все последние продажи, возвраты, списания и прибытия
-        recent_expenses = Expense.objects.order_by('-date')[:5]
+        recent_expenses = Expense.objects.order_by('-date', '-id')[:5]
         recent_returns = Return.objects.order_by('-return_date')[:5]
         recent_writeoffs = Writeoff.objects.order_by('-writeoff_date')[:5]
-        recent_arrivals = Arrival.objects.order_by('-date')[:5]
+        recent_arrivals = Arrival.objects.order_by('-date','-id')[:5]
     elif user.role == 'manager':
         print("MANAGER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         # Менеджер видит только свои последние продажи за сегодня
         today = datetime.date.today()
-        recent_expenses = Expense.objects.filter(user=user, date=today).order_by('-date')[:5]
+        recent_expenses = Expense.objects.filter(user=user, date=today).order_by('-date','-id')[:5]
         recent_returns = []
         recent_writeoffs = []
-        recent_arrivals = Arrival.objects.order_by('-date')[:5]
+        recent_arrivals = Arrival.objects.order_by('-date','-id')[:5]
 
     elif user.role == 'employee':
         print("EMPLOYEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -86,6 +92,115 @@ def dashboard(request):
 #         return render(request, 'sclad/dashboard.html', context)
 
 
+@login_required
+@user_passes_test(lambda u: u.role == 'admin')
+def product_create(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
+            return redirect('sclad:dashboard')
+    else:
+        form = ProductForm()
+
+    return render(request, 'sclad/product_form.html', {'form': form})
+
+
+# class ProductDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+#     model = Product
+#     template_name = 'sclad/product_detail.html'
+#
+#     def get_object(self, queryset=None):
+#         return get_object_or_404(Product, pk=self.kwargs['pk'])
+#
+#     def test_func(self):
+#         product = self.get_object()
+#         return self.request.user.role == 'admin' or product.user == self.request.user
+
+
+@login_required
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.user.role == 'admin' or product.user == request.user:
+        context = {
+            'product': product,
+        }
+        return render(request, 'sclad/product_detail.html', context)
+    else:
+        return HttpResponseForbidden("You are not authorized to view this arrival.")
+
+# @login_required
+# def arrival_create(request):
+#     if request.user.role != 'admin':
+#         return HttpResponseForbidden("Только администраторы могут создавать приходы.")
+#
+#     ArrivalCompositionFormSet = inlineformset_factory(
+#         Arrival, ArrivalComposition, fields=('product', 'quantity', 'purchase_price'), extra=1, can_delete=False
+#     )
+#
+#     if request.method == 'POST':
+#         arrival_form = ArrivalForm(request.POST)
+#         arrival_composition_formset = ArrivalCompositionFormSet(request.POST, prefix='composition')
+#
+#         if arrival_form.is_valid() and arrival_composition_formset.is_valid():
+#             arrival = arrival_form.save(commit=False)
+#             arrival.user = request.user
+#             arrival.save()
+#
+#             for form in arrival_composition_formset:
+#                 arrival_composition = form.save(commit=False)
+#                 arrival_composition.arrival = arrival
+#                 arrival_composition.user = request.user
+#                 arrival_composition.save()
+#
+#             return redirect('sclad:arrival_detail', arrival_id=arrival.id)
+#     else:
+#         arrival_form = ArrivalForm()
+#         arrival_composition_formset = ArrivalCompositionFormSet(prefix='composition')
+#
+#     return render(request, 'sclad/arrival_create.html', {
+#         'arrival_form': arrival_form,
+#         'arrival_composition_formset': arrival_composition_formset
+#     })
+
+@login_required
+def arrival_create(request):
+    if request.user.role != 'admin':
+        return HttpResponseForbidden("Только менеджеры могут создавать поступления.")
+
+    if request.method == 'POST':
+        supplier_id = request.POST.get('supplier')
+        supplier = get_object_or_404(Supplier, id=supplier_id)
+        date = request.POST.get('date')
+        description = request.POST.get('description')
+        arrival = Arrival.objects.create(
+            supplier=supplier,
+            date=date,
+            description=description,
+            user=request.user
+        )
+
+        for key, value in request.POST.items():
+            if key.startswith('product_'):
+                product_id = key.split('_')[1]
+                product = get_object_or_404(Product, id=product_id)
+                if value:
+                    quantity = int(value)
+                    ArrivalComposition.objects.create(
+                        arrival=arrival,
+                        product=product,
+                        purchase_price=product.purchase_price,
+                        quantity=quantity,
+                        user=request.user
+                    )
+
+        return redirect('sclad:arrival_detail', arrival_id=arrival.id)
+    else:
+        suppliers = Supplier.objects.all()
+        products = Product.objects.all()
+        return render(request, 'sclad/arrival_create.html', {'suppliers': suppliers, 'products': products})
 
 @login_required
 def arrival_detail(request, arrival_id):
@@ -119,16 +234,19 @@ def expense_create(request):
             user=request.user
         )
 
-        for product_id, quantity in request.POST.items():
-            if product_id.startswith('product_'):
-                product_id = product_id.split('_')[1]
+        for key, value in request.POST.items():
+            if key.startswith('product_'):
+                product_id = key.split('_')[1]
                 product = get_object_or_404(Product, id=product_id)
-                ExpenseComposition.objects.create(
-                    expense=expense,
-                    product=product,
-                    quantity=int(quantity),
-                    user=request.user
-                )
+                if value:  # проверьте, не пустая ли строка
+                    quantity = int(value)  # преобразуйте value в целое число
+                    if quantity > 0:
+                        ExpenseComposition.objects.create(
+                            expense=expense,
+                            product=product,
+                            quantity=quantity,
+                            user=request.user
+                        )
 
         return redirect('sclad:expense_detail', expense_id=expense.id)
     else:
@@ -136,6 +254,35 @@ def expense_create(request):
         products = Product.objects.all()
         return render(request, 'sclad/expense_create.html', {'customers': customers, 'products': products})
 
+# def expense_create(request):
+#     ExpenseCompositionFormSet = inlineformset_factory(
+#         Expense, ExpenseComposition, fields=('product', 'quantity'), extra=1, can_delete=False
+#     )
+#
+#     if request.method == 'POST':
+#         expense_form = ExpenseForm(request.POST)
+#         expense_composition_formset = ExpenseCompositionFormSet(request.POST, prefix='composition')
+#
+#         if expense_form.is_valid() and expense_composition_formset.is_valid():
+#             expense = expense_form.save(commit=False)
+#             expense.user = request.user
+#             expense.save()
+#
+#             for form in expense_composition_formset:
+#                 expense_composition = form.save(commit=False)
+#                 expense_composition.expense = expense
+#                 expense_composition.user = request.user
+#                 expense_composition.save()
+#
+#             return redirect('sclad:expense_detail', expense_id=expense.id)
+#     else:
+#         expense_form = ExpenseForm()
+#         expense_composition_formset = ExpenseCompositionFormSet(prefix='composition')
+#
+#     return render(request, 'sclad/expense_create.html', {
+#         'expense_form': expense_form,
+#         'expense_composition_formset': expense_composition_formset
+#     })
 
 @login_required
 def expense_detail(request, expense_id):

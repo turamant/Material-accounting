@@ -150,6 +150,20 @@ class ExpenseComposition(models.Model):
     def __str__(self):
         return f"{self.product.name} in {self.expense}"
 
+    @property
+    def discount_amount(self):
+        if self.expense.customer.discount:
+            discounted_price = self.product.sell_price * (1 - self.expense.customer.discount.discount_percentage / 100)
+            return (self.product.sell_price - discounted_price) * self.quantity
+        return 0
+
+    @property
+    def total_price(self):
+        if self.expense.customer.discount:
+            discounted_price = self.product.sell_price * (1 - self.expense.customer.discount.discount_percentage / 100)
+            return discounted_price * self.quantity
+        return self.product.sell_price * self.quantity
+
 
 class Return(models.Model):
     expense_composition = models.ForeignKey(ExpenseComposition, on_delete=models.CASCADE)

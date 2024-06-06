@@ -25,10 +25,11 @@
         <td>{{ item.product.name }}</td>
         <td>${{ item.product.sell_price | floatformat:0 }}</td>
         <td>{{ item.quantity }}</td>
-        <td>${{ item.quantity|mul:item.product.sell_price|floatformat:0 }}
-        <td>${{ item.quantity|mul:item.product.sell_price|mul:expense.customer.discount|
+        <td>${{ item.total_price|floatformat:0 }}</td>
+        <td>${{ item.discount_amount|floatformat:0 }}</td>
 
-        tformat:0 }}</td>
+
+
     </tr>
     {% endfor %}
   </tbody>

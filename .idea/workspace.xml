@@ -5,19 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="285c4775-426a-4c65-8e46-cd26a09ce989" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sclad/templatetags/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sclad/templatetags/custom_tags.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/sclad/expense_create.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sclad/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sclad/static/js/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/arrival_create.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/arrival_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/product_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/product_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sclad/supplier_create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sclad/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sclad/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sclad/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sclad/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sclad/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/sclad/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/arrival_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/arrival_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/sclad/expense_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/expense_create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sclad/expense_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sclad/expense_detail.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,8 +32,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>

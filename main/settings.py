@@ -130,3 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 # LOGIN_REDIRECT_URL = "sclad:dashboard"
 # LOGOUT_REDIRECT_URL = "sclad:dashboard"
+
+from django.urls import reverse_lazy
+
+AUTOCOMPLETE_LIGHT_STATIC_PREFIX = reverse_lazy('admin:static')
+

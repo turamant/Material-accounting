@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Артикул</th>
+        <th scope="col">Название</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена покупки</th>
+        <th scope="col">Цена продажи</th>
+        <th scope="col">Общая стоимость</th>
+        <th scope="col">Общая выручка</th>
+        <th scope="col">Прибыль</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{ product.article_number }}</th>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>${{ product.purchase_price }}</td>
+        <td>${{ product.sell_price }}</td>
+        <td>${{ product.balance_value }}</td>
+        <td>${{ product.balance_sell }}</td>
+        <td>${{ product.total_profit }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Описание</th>
+        <th scope="col">Владелец</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{ product.description }}</th>
+        <td>{{ product.user }}</td>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Создание продажи</h1>
+  <h1>Создание поступления</h1>
   <form method="post">
     {% csrf_token %}
-    <label for="customer">Клиент:</label>
-    <select name="customer" id="customer">
-      {% for customer in customers %}
-        <option value="{{ customer.id }}">{{ customer.name }}</option>
+    <label for="supplier">Поставщик:</label>
+    <select name="supplier" id="supplier">
+      {% for supplier in suppliers %}
+        <option value="{{ supplier.id }}">{{ supplier.name }}</option>
       {% endfor %}
     </select>
     <br>
@@ -20,12 +20,9 @@
     <h2>Товары:</h2>
     {% for product in products %}
       <label for="product_{{ product.id }}">{{ product.name }} (в наличии: {{ product.quantity }})</label>
-      <input type="number" name="product_{{ product.id }}" id="product_{{ product.id }}" min="0" max="{{ product.quantity }}">
+      <input type="number" name="product_{{ product.id }}" id="product_{{ product.id }}" min="0" >
       <br>
     {% endfor %}
-    <button type="submit">Создать продажу</button>
+    <button type="submit">Создать поступление</button>
   </form>
 {% endblock %}
-
-
-

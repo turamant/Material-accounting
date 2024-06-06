@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load custom_tags %}
+
 {% block content %}
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -22,6 +24,7 @@
         <th scope="col">Продукт</th>
         <th scope="col">Количество</th>
         <th scope="col">Цена</th>
+        <th scope="col">Сумма</th>
     </tr>
     </thead>
     <tbody>
@@ -30,11 +33,13 @@
                 <th scope="row">{{ item.product.name }}</th>
                 <th scope="row">{{ item.quantity }}</th>
                 <th scope="row">{{ item.purchase_price | floatformat:1}}</th>
+               <th scope="row">{{ item.quantity|mul:item.purchase_price|floatformat:2 }}</th>
           </tr>
         {% endfor %}
           <tr bgcolor="cuan">
               <th scope="col">Итого: </th>
               <th scope="row">{{ arrival.total_quant}}</th>
+              <th scope="col"></th>
               <th scope="row">${{ arrival.total_arrival_cost|floatformat:2 }}</th>
           </tr>
     </tbody>
