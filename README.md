@@ -1,3 +1,3 @@
 # qwsdcsdv
-Сладской учет товаров
-Warehouse accounting of goods
+# Сладской учет товаров
+(Warehouse accounting of goods)
